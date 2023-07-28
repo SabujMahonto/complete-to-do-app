@@ -1,0 +1,30 @@
+// Basic config Lib Import
+const express = require("express");
+const router = require("./src/routes/api");
+const bodyParser = require("body-parser");
+const app = new express();
+
+// Security Middleware Lib Import
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+const expressMongoSanitize = require("express-mongo-sanitize");
+const hpp = require("hpp");
+const xss = require("xss-clean");
+const cors = require("cors");
+
+// Database Lib Import
+const mongoose = require("mongoose");
+
+// Security Middleware Implement
+app.use(cors());
+app.use(helmet());
+app.use(expressMongoSanitize());
+app.use(hpp());
+app.use(xss());
+
+// body-parser Implement
+app.use(bodyParser.json());
+
+// request rate limit
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3000 });
+app.use(limiter());
