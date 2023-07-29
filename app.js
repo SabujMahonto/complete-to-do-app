@@ -46,11 +46,16 @@ let uri = process.env.MONGO_URI;
 mongoose.connect(uri, { useUnifiedTopology: true });
 
 // Routing Implement
-app.use("/api/v1", router);
+app.use("/", router);
 
 // Undefine routing implement
 app.use("*", (req, res) => {
   res.status(404).json({ status: "Fail", data: "Not Found" });
+});
+
+const port = process.env.PORT;
+app.listen(port, "localhost", () => {
+  console.log(`app was running ${port}`);
 });
 
 module.exports = app;
